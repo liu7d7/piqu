@@ -1,0 +1,1 @@
+copy "C:\Users\richard may clarkson\CLionProjects\glEngine\cmake-build-debug\glEngine.exe" "C:\Users\richard may clarkson\CLionProjects\glEngine\glEngine.exe"
