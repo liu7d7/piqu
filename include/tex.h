@@ -7,8 +7,10 @@
 
 #include "global.h"
 
-namespace piqu {
-  struct tex_t {
+namespace piqu
+{
+  struct tex_t
+  {
     u32 handle;
     i32 width;
     i32 height;
@@ -17,12 +19,14 @@ namespace piqu {
 
     explicit tex_t(u8* src, i32 width, i32 height);
 
-    inline void use() const {
+    inline void use() const
+    {
       glBindTexture(GL_TEXTURE_2D, handle);
     }
   };
 
-  namespace tex {
+  namespace tex
+  {
     void defaults(u32& handle, bool multisample = false);
   }
 }

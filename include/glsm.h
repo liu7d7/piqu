@@ -5,7 +5,8 @@
 #ifndef GLENGINE_GLSM_H
 #define GLENGINE_GLSM_H
 
-namespace gl {
+namespace gl
+{
   extern bool depthEnabled;
   extern bool blendEnabled;
   extern bool cullEnabled;
@@ -15,10 +16,13 @@ namespace gl {
   extern bool cullSaved;
 
   void save_state();
+
   void restore_state();
 
   void depth(bool on);
+
   void blend(bool on);
+
   void cull(bool on);
 }
 

@@ -4,54 +4,68 @@
 #include "glsm.h"
 #include "glad.h"
 
-namespace gl {
-  bool depthEnabled;
-  bool blendEnabled;
-  bool cullEnabled;
+namespace gl
+{
+  bool depthEnabled{false};
+  bool blendEnabled{false};
+  bool cullEnabled{false};
 
-  bool depthSaved;
-  bool blendSaved;
-  bool cullSaved;
+  bool depthSaved{false};
+  bool blendSaved{false};
+  bool cullSaved{false};
 
-  void save_state() {
+  void save_state()
+  {
     depthSaved = depthEnabled;
     blendSaved = blendEnabled;
     cullSaved = cullEnabled;
   }
 
-  void restore_state() {
+  void restore_state()
+  {
     depth(depthSaved);
     blend(blendSaved);
     cull(cullSaved);
   }
 
-  void depth(bool on) {
+  void depth(bool on)
+  {
     if (depthEnabled == on) return;
     depthEnabled = on;
-    if (on) {
+    if (on)
+    {
       glEnable(GL_DEPTH_TEST);
-    } else {
+    }
+    else
+    {
       glDisable(GL_DEPTH_TEST);
     }
   }
 
-  void blend(bool on) {
+  void blend(bool on)
+  {
     if (blendEnabled == on) return;
     blendEnabled = on;
-    if (on) {
+    if (on)
+    {
       glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    } else {
+    }
+    else
+    {
       glDisable(GL_BLEND);
     }
   }
 
-  void cull(bool on) {
+  void cull(bool on)
+  {
     if (cullEnabled == on) return;
     cullEnabled = on;
-    if (on) {
+    if (on)
+    {
       glEnable(GL_CULL_FACE);
-    } else {
+    }
+    else
+    {
       glDisable(GL_CULL_FACE);
     }
   }

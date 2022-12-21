@@ -7,12 +7,15 @@
 
 #include "global.h"
 
-namespace piqu {
-  enum attrib {
+namespace piqu
+{
+  enum attrib
+  {
     float1 = 1, float2 = 2, float3 = 3, float4 = 4
   };
 
-  struct vao_t {
+  struct vao_t
+  {
     u32 handle;
     i32 stride;
 
@@ -20,7 +23,8 @@ namespace piqu {
 
     void init(const vector<attrib>&);
 
-    inline void use() const {
+    inline void use() const
+    {
       glBindVertexArray(handle);
     }
   };

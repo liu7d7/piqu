@@ -7,27 +7,33 @@
 
 #include "global.h"
 
-namespace piqu {
+namespace piqu
+{
   template<typename T>
-  struct buf_t {
+  struct buf_t
+  {
     u32 cap;
     u32 handle;
     u32 head;
     u32 size;
     T* ptr;
 
-    buf_t(u32 cap, u32 size) : cap(cap), head(0), ptr(new T[size]), size(size) {
+    buf_t(u32 cap, u32 size) : cap(cap), head(0), ptr(new T[size]), size(size)
+    {
       glGenBuffers(1, &handle);
     }
 
-    void reserve(u32 newSize) {
+    void reserve(u32 newSize)
+    {
       bool resized = false;
       u32 prevSize = size;
-      while (newSize > size) {
+      while (newSize > size)
+      {
         size *= 2;
         resized = true;
       }
-      if (resized) {
+      if (resized)
+      {
         T* newItems = new T[size];
         copy(ptr, ptr + prevSize, newItems);
         delete[] ptr;
@@ -35,34 +41,40 @@ namespace piqu {
       }
     }
 
-    void put(const T& item) {
+    void put(const T& item)
+    {
       reserve(head + 1);
       ptr[head] = item;
       head++;
     }
 
-    void put(T* items, u32 amt) {
+    void put(T* items, u32 amt)
+    {
       reserve(head + amt);
       copy(items, items + amt, ptr + head);
       head += amt;
     }
 
-    void put(const T* items, u32 amt) {
+    void put(const T* items, u32 amt)
+    {
       reserve(head + amt);
       copy(items, items + amt, ptr + head);
       head += amt;
     }
 
-    inline void upload() {
+    inline void upload()
+    {
       use();
       glBufferData(cap, sizeof(T) * head, ptr, GL_DYNAMIC_DRAW);
     }
 
-    inline void clear() {
+    inline void clear()
+    {
       head = 0;
     }
 
-    inline void use() {
+    inline void use()
+    {
       glBindBuffer(cap, handle);
     }
   };

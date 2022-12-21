@@ -4,8 +4,10 @@
 #include "shader.h"
 #include "gtc/type_ptr.hpp"
 
-namespace piqu {
-  u32 shader_source(const string& src, u32 type) {
+namespace piqu
+{
+  u32 shader_source(const string& src, u32 type)
+  {
     ifstream file(src);
     stringstream stream;
     stream << file.rdbuf();
@@ -24,12 +26,14 @@ namespace piqu {
     die("compile " + gl_to_string(type) + " " + l);
   }
 
-  void do_uniforms(shader_t& in) {
+  void do_uniforms(shader_t& in)
+  {
     i32 numUniforms;
     glGetProgramiv(in.handle, GL_ACTIVE_UNIFORMS, &numUniforms);
     in.uniforms = unordered_map<string, i32>();
 
-    for (u32 i = 0; i < numUniforms; i++) {
+    for (u32 i = 0; i < numUniforms; i++)
+    {
       char* buf = new char[256];
       i32 len;
       glGetActiveUniform(in.handle, i, 256, &len, nullptr, nullptr, buf);
@@ -40,7 +44,8 @@ namespace piqu {
     }
   }
 
-  void link_program(shader_t& in) {
+  void link_program(shader_t& in)
+  {
     glLinkProgram(in.handle);
     i32 t;
     glGetProgramiv(in.handle, GL_LINK_STATUS, &t);
@@ -52,41 +57,43 @@ namespace piqu {
     die("link " + gl_to_string(t) + " " + str);
   }
 
-  shader_t::shader_t(const string& vsrc, const string& fsrc) {
+  shader_t::shader_t(const string& vsrc, const string& fsrc)
+  {
     u32 vsh = shader_source(vsrc, GL_VERTEX_SHADER);
     u32 fsh = shader_source(fsrc, GL_FRAGMENT_SHADER);
 
-    this->handle = glCreateProgram();
-    glAttachShader(this->handle, vsh);
-    glAttachShader(this->handle, fsh);
+    handle = glCreateProgram();
+    glAttachShader(handle, vsh);
+    glAttachShader(handle, fsh);
 
     link_program(*this);
 
-    glDetachShader(this->handle, vsh);
+    glDetachShader(handle, vsh);
     glDeleteShader(vsh);
-    glDetachShader(this->handle, fsh);
+    glDetachShader(handle, fsh);
     glDeleteShader(fsh);
 
     do_uniforms(*this);
   }
 
-  shader_t::shader_t(const string& vsrc, const string& fsrc, const string& gsrc) {
+  shader_t::shader_t(const string& vsrc, const string& fsrc, const string& gsrc)
+  {
     u32 vsh = shader_source(vsrc, GL_VERTEX_SHADER);
     u32 fsh = shader_source(fsrc, GL_FRAGMENT_SHADER);
     u32 gsh = shader_source(fsrc, GL_GEOMETRY_SHADER);
 
-    this->handle = glCreateProgram();
-    glAttachShader(this->handle, vsh);
-    glAttachShader(this->handle, fsh);
-    glAttachShader(this->handle, gsh);
+    handle = glCreateProgram();
+    glAttachShader(handle, vsh);
+    glAttachShader(handle, fsh);
+    glAttachShader(handle, gsh);
 
     link_program(*this);
 
-    glDetachShader(this->handle, vsh);
+    glDetachShader(handle, vsh);
     glDeleteShader(vsh);
-    glDetachShader(this->handle, fsh);
+    glDetachShader(handle, fsh);
     glDeleteShader(fsh);
-    glDetachShader(this->handle, gsh);
+    glDetachShader(handle, gsh);
     glDeleteShader(gsh);
 
     do_uniforms(*this);
